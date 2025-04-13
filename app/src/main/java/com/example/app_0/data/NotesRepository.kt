@@ -1,15 +1,16 @@
 package com.example.app_0.data
 
-class NotesRepository {
-    private val notes = mutableListOf<Note>()
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
-    fun getAllNotes(): List<Note> = notes.toList()
+class NotesRepository(private val noteDao: NoteDao) {
+    val allNotes: Flow<List<Note>> = noteDao.getAll()
 
-    fun addNote(note: Note) {
-        notes.add(note)
+    suspend fun addNote(note: Note) {
+        noteDao.insert(note)
     }
 
-    fun deleteNote(note: Note) {
-        notes.remove(note)
+    suspend fun deleteNote(note: Note) {
+        noteDao.delete(note)
     }
 }

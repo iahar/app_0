@@ -6,31 +6,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.`MainActivity.kt`">
+    tools:context=".ui.MainActivity">
 
+    <!-- Заголовок заметки -->
     <EditText
         android:id="@+id/titleEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title_hint" />
+        android:hint="@string/title_hint"
+        android:maxLines="1"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionNext"/>
 
+    <!-- Текст заметки -->
     <EditText
         android:id="@+id/contentEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/content_hint" />
+        android:hint="@string/content_hint"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:gravity="top"/>
 
+    <!-- Кнопка добавления -->
     <Button
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/add_note" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/add_note"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
+    <!-- Список заметок -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 </LinearLayout>

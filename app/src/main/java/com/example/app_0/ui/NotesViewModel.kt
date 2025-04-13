@@ -1,18 +1,23 @@
 package com.example.app_0.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.app_0.data.Note
 import com.example.app_0.data.NotesRepository
+import kotlinx.coroutines.launch
 
-class NotesViewModel : ViewModel() {
-    private val repository = NotesRepository()
-    val notes = repository.getAllNotes()
+class NotesViewModel(private val repository: NotesRepository) : ViewModel() {
+    val allNotes = repository.allNotes
 
     fun addNote(title: String, content: String) {
-        repository.addNote(Note(title = title, content = content))
+        viewModelScope.launch {
+            repository.addNote(Note(title = title, content = content))
+        }
     }
 
     fun deleteNote(note: Note) {
-        repository.deleteNote(note)
+        viewModelScope.launch {
+            repository.deleteNote(note)
+        }
     }
 }
