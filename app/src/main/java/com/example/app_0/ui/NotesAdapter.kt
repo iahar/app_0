@@ -11,7 +11,8 @@ import com.example.app_0.R
 import com.example.app_0.data.Note
 
 class NotesAdapter(
-    private val onDeleteClick: (Note) -> Unit
+    private val onDeleteClick: (Note) -> Unit,
+    private val onEditClick: (Note) -> Unit
 ) : ListAdapter<Note, NotesAdapter.NoteViewHolder>(NoteDiffCallback()) {
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,6 +24,9 @@ class NotesAdapter(
             titleView.text = note.title
             contentView.text = note.content
             deleteButton.setOnClickListener { onDeleteClick(note) }
+            itemView.setOnClickListener {
+                onEditClick(note)
+            }
         }
     }
 

@@ -11,3 +11,4 @@ data class Note(
     val content: String,
     val createdAt: Long = System.currentTimeMillis()
 )
+
