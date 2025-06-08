@@ -15,6 +15,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import com.example.app_0.data.Note
+import android.view.inputmethod.InputMethodManager
+import android.content.Context
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -42,6 +44,9 @@ class MainActivity : AppCompatActivity() {
                 binding.titleEditText.setText(note.title)
                 binding.contentEditText.setText(note.content)
                 binding.addButton.text = getString(R.string.update_note)
+                // Показать клавиатуру и установить фокус
+                binding.titleEditText.requestFocus()
+                showKeyboard()
             }
         )
 
@@ -77,6 +82,11 @@ class MainActivity : AppCompatActivity() {
                 binding.titleEditText.text.clear()
                 binding.contentEditText.text.clear()
 
+                // Скрыть после сохранения
+                hideKeyboard()
+                binding.titleEditText.clearFocus()
+                binding.contentEditText.clearFocus()
+
                 lifecycleScope.launch {
                     viewModel.allNotes.collect { notes ->
                         adapter.submitList(notes)
@@ -87,5 +97,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // обработка скрытия клавиатуры
+        binding.root.setOnClickListener {
+            hideKeyboard()
+            binding.titleEditText.clearFocus()
+            binding.contentEditText.clearFocus()
+        }
+    }
+
+    private fun showKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.titleEditText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.titleEditText.windowToken, 0)
     }
 }
